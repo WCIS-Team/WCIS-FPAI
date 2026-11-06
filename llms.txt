@@ -1,0 +1,118 @@
+# WCIS-FPAI
+
+> FMQL30TAI（复旦微 FPAI30TAI 悟净板）上的 FPGA＋NPU＋CPU 异构多模态边缘智能终端。现有视觉工程包含人脸/PAD、预览与录像；系统软件由 HA4FPAI 的上层控制、可替换语言链和交互界面组成。当前语音部署默认在线 ASR／云 LLM／Edge TTS，真实外设闭环、离线问答和融合认证按各自证据验收。2026 全国大学生嵌入式芯片与系统设计竞赛 · FPGA 赛道。
+
+**llm 优先读取本文件 `llms.txt` 作为索引。** 文中路径相对主库根（`S:\work\WCIS`）。
+状态与决策有冲突时以 `wiki/archive/开发管理/状态源与决策记录.md` 为准（冲突时它赢）。
+
+## 仓库（三个）
+
+- 总仓库为 WCIS，对应 [takomitkm/WCIS-FPAI](https://github.com/takomitkm/WCIS-FPAI)（分支 `main`）— FMQL30TAI multimodal edge AI terminal: source docs and wiki。主库只记两个子模块指针与根级文档。
+- [takomitkm/WCIS-FPAI-wiki](https://github.com/takomitkm/WCIS-FPAI-wiki)（分支 `main`）— WCIS-FPAI Wiki，是本项目有关的所有信息的人类可读 Markdown 集；本地 `wiki/`，同时就是 Obsidian vault。
+- [takomitkm/WCIS-FPAI-repos](https://github.com/takomitkm/WCIS-FPAI-repos)（分支 `master`）— WCIS repos 代码仓库：我们队做的 repos ＋ 厂商 FPGA demo；本地 `repos/`。
+
+## 入口文档
+
+- [AGENTS.md](./AGENTS.md)：**在 WCIS 内工作时使用的记忆**；SOP 的检索方式（`#SOP` 标签）在这里。**git 推送规矩在它的第七节，三条最要命：内容只推它自己的子库（`wiki`＝分支 `main`／`repos`＝分支 `master`）；子库推送成功并确认远端可取后，顺带只更新对应 gitlink；主库其他内容不夹带；push 被拒不自己合并、不 stash、不 `reset` 本地分支头（本地常年落后是故意的）。**
+- [ARCHITECTURE.md](./ARCHITECTURE.md)：仓库结构与作品系统架构。
+- [CONTRIBUTING.md](./CONTRIBUTING.md)：写作、校验、行尾、站点、推送规范。
+- `wiki/README.md`：文档库首页——项目简介、工程路线四步、阅读方式；完整目录结构见本文件「目录」（agent 与人类共用）。
+- `wiki/dict.md`：术语表（PS／PL／EDIF／网表／WNS／CMA…）。
+- `wiki/archive/开发管理/状态源与决策记录.md`：状态与决策唯一可信源，`D-nn` 编号。
+- `wiki/archive/开发管理/进度计算与实时看板.md`：进度唯一总账（§3.1）。
+- `wiki/archive/开发管理/清单.md`：现在该做哪一件——**第 2 节的流程图是这一页唯一手写的东西**。⚠ **它的第 3／4 节（按卡号勾选框、全库「找什么去哪」分流表）已不存在**（2026-11-01 核对：全页只剩第 1、2 节）。"找什么去哪"改由**四处合起来**承担：① `AGENTS.md` §五（规矩＋承重页指向）；② 本文件「入口文档」＋「目录」；③ 主库根 `llms.txt` 的「目录」（文件树，逐目录"这里放什么"＋代表页，agent 与人类共用的全仓索引）；④ `ARCHITECTURE.md` §1.4（三处真值与数据流）。**按卡号找判据页**改看 `wiki/archive/开发管理/进度计算与实时看板.md` §3.1 总账表末列「详情」。
+- `wiki/archive/开发管理/任务卡与台账规范.md`：任务卡与台账口径。
+- `wiki/PS/ha/HA4FPAI-CI开发记录.md`：CI 开发记录正本与已完成日志、性能图表、原始采样、发布证据的归档入口；逐文件 SHA 清单在相邻 `ci-records/2026-11-05/manifest.json`。一次性脚本和安装包二进制仍留 workenv。
+- `repos/HA4FPAI/docs/REFACTOR-CHECKLIST.md`：HA4FPAI重构唯一实施勾选正本，已做与待办均含组件/方法/验收/证据边界；配套 REFACTOR-ARCHITECTURE.md、REFACTOR-HISTORY.md 管目标边界和真实分叉/归档/合流历史。视频参考 `repos/fmql30tai-sdi-npu-face-recognition`；wiki/mainchain/重构剩余工作详细清单.md 只留入口，旧联合规划缺页待核，不再从“尚未实施”旧句推断当前状态。
+
+## 目录
+
+主库（`S:\work\WCIS`）顶层（路径相对主库根）：
+
+- `repos/` — 子模块 → WCIS-FPAI-repos（指针；分支 `master`）；`FPAI30TAI图像FPGA/` 为 FPGA＋ps_app 视觉工程；`HA4FPAI/` 是另带自有 remote 的系统软件仓，现有 `klar/`（意图与执行）、`boards/`（上层控制/验证）、`lang/`（语言链与部署）、`web/ggradio/`（试验台）、`web/offlineHMI/`（原生 HMI）。语言链现势入口为 `repos/HA4FPAI/lang/README.md`，旧 `repos/lang/` 已迁入；HMI 真 HDMI 联调仍待验。
+- `wiki/` — 子模块 → WCIS-FPAI-wiki，Obsidian 入口（指针；分支 `main`）
+- `source/` — 已提取出 Markdown 放入 wiki 的原文件（**仅本机，不入仓**）
+- `workenv/` — 临时脚本与中途产物（**仅本机，不入仓，不清理**）
+- `largefiles/` — 一次性大文件（**仅本机，不入仓**；盘上只有此名）
+- `skills/` — 运行时按需加载的 skill（入库）
+
+> `source/` `workenv/` `largefiles/` 只在本机一份，永久排除、不建远程、不做子模块（规则在 `.gitignore`）。所有途径与网络搜索都找不到资料时，最后才来 `largefiles/` 找。
+
+文档库（`wiki/`）结构——文件树，每目录注"放什么＋代表页"：
+
+```
+wiki/
+├── README.md                 # 文档库首页：简介、工程路线四步、阅读方式
+├── dict.md  notes.md  闲话.md   # 术语表 / 零散记录
+├── format/                   # 校验与行尾脚本：check-md.py · fix-eol.py · progress.py
+├── SOP/                      # 可照抄的操作规程，一页一条链路「怎么跑＋怎么判过了」
+│   └── MOD/                  # 模型/工具链类 SOP（小 LLM 测试、klar 前端上板、录音筛选…）
+├── ops/                      # Windows 主机运维：SSH 登录告警与免 UAC 提权；校机代理与 GitHub 登录
+├── archive/                  # 初稿与被撤销页；状态源/决策、看板、风险判据三页承重页在 archive/开发管理/
+├── man/                      # 手册与厂商转档（整目录免页面形状校验）
+├── repo2WCIS.repos/          # 项目索引与厂商参考资料；入口 repo项目索引
+├── PL/                       # 可编程逻辑总纲（pldev 板载/外接外设 · plvid 视觉前端 · plnet PL 网口两条路线导航）
+│   ├── FPGA/                 # 位流与器件库、Procise 手册、位流手术、JFMKits.ippatch、4compile 工作区
+│   └── MOD/                  # NPU 模型自著页（modellist/ 官方总表 · modrt/ 厂商转档）
+│       └── llm/              # LLM 迁移自著页（Qwen3 / ERNIE-4.5 / KV 常驻 / 编译窗口裁剪…）
+├── schoolhardware/           # 校机（Windows 宿主）SOP 归档（RAW_DIRS，免页面校验）
+├── agentpreview/             # 根级 AGENTS/ARCHITECTURE/CONTRIBUTING 旧快照（不引用，改请改主库根正本）
+├── PS/                       # 处理系统（悟净开发板）
+│   ├── psrt/rt/              # os（OS 层改动唯一归口）· SD 卡启动 · 联网 · 装编译环境
+│   ├── psrt/优化/            # 板端内存上限与心跳日志
+│   ├── emmc/                # eMMC 提速七篇（先看 01-结论汇总）
+│   ├── Backend/             # CPU 侧模型后端；mods/audio/ 为全部 TTS 页唯一落点
+│   ├── OrchestrationLayer/   # VPU 串流直播 · router · intro
+│   ├── WebFrontend/          # webapp · HDMI直显与网页最小化方案（显示出口＋浏览器档位＋页面砍法）
+│   ├── hardware/             # 板端设备事实页（芯片/板子/外设/音频/板载接口与内核改造）＋硬件与基础运行环境档案索引页（tags:index）
+│   ├── ha/                  # HA4FPAI-CI开发记录（日志、图表、采样及发布证据）；联合规划与分阶段记录
+│   └── board_extract/        # 板载系统镜像提取件；索引页＝板端提取件台账（tags:index），README 为作业底稿
+├── 完整复现/                 # 完整复现索引与分步复现页（SOP 式：每步"做什么＋应达状态"，最小的完整复现）；入口 完整复现索引（首篇 1-Linux初始化：板端 Linux 从空白镜像复现）
+├── site/                     # Quartz 站点装配与配置、deploy.yml 正本
+├── todo/                     # 待办与待验证清单
+└── mainchain/                # HA4FPAI与视频联合总规划及数据/接口/迁移/验收四篇；历史链路草图保留
+```
+
+> 根级除上述几份文档外没有入库的 `*.png`／`*.xlsx`（曾有的 `组件.xlsx` 已在 2026-10-18 布局重组删除、**不再维护**，旧版可 `git show '452a586^:组件.xlsx'` 取回）；`agentpreview/` 是历史快照，**改规矩请改主库根正本**，别引用这里。
+
+## 大文件与外部依赖
+
+- 仿真或编译时缺 `JFM_Kits\ip_patch`，先找S:\work\WCIS\wiki\PL\FPGA\4compile\JFM_Kits\ip_patch ，再找 `192.168.1.107` 上的 `S:\work\WCIS\largefiles\JFM_Kits\ip_patch.zip`；`ip_patch_filelist.txt`（2026-10-25 更正：原名登记为 `ip_patch.txt`，盘上是这个带 `_filelist` 的名字，4373 行、含 384 颗 `.bit`）是它的文件目录——**可以不用解压或读取 zip，先看这份目录找有没有所需文件**。
+
+## 机器与网络
+
+- 路由器 `10.101.54.192`；内网 `192.168.1.0/24`。
+- 各机器（本机 / 校机 / 开发板 / 中转机）的地址、账号与登录口令见 [AGENTS.md](./AGENTS.md) §四「三台机与网络」——本文件不重复登录口令。
+- 旧信息站 `http://10.101.54.192:18080/` 已按 2026-11-04 决定停用。开工先读本地 `llms.txt`、`wiki/README.md` 和 `ARCHITECTURE.md`，状态冲突再查状态源最新记录。
+
+## 标签聚合（#SOP／#index）
+
+- SOP 页（操作规程）用 `tags: [SOP]` 聚合；约定、检索与新建流程见 [AGENTS.md](./AGENTS.md) §三的「`#SOP`」小节。
+- 索引页（总纲/清单/台账/阅读地图/目录占位 stub）用 `tags: [index]` 聚合；判据见 [AGENTS.md](./AGENTS.md) §三的「`#index`」小节，全量清单见本文件「索引页（#index）」一节。
+
+## 索引页（#index）
+
+约定正文在 [AGENTS.md](./AGENTS.md) §三的「`#index`」小节（判据：**价值在导航不在事实**）。本清单是打了 `tags: [index]` 的**全量登记**：新打标页来此补一行、除名来此删一行，实测以 `rg -l '^tags:.*\bindex\b' wiki --glob '*.md'` 为准（2026-11-04 建，22 页；列上 `wiki/PL/plnet.md` ＝ 23 页，但那当天还是 0 字节空页、检索并不命中，正文与 `tags: [index]` 是 **2026-11-06** 才补上的；再补 `wiki/PS/WebFrontend/lang语音链试验台与通信.md` ＝ 24 页，与 2026-11-06 检索实测一致）。
+
+- 文档库门面与总纲：`wiki/README.md` · `wiki/PS/psdev.md` · `wiki/PL/pldev.md` · `wiki/PL/plvid.md` · `wiki/PL/plnet.md`
+- 档案与台账索引：`wiki/PS/hardware/硬件与基础运行环境档案.md` · `wiki/PS/board_extract/板端提取件台账.md` · `wiki/PS/board_extract/README.md` · `wiki/PS/板端我方代码与产物台账.md` · `wiki/todo/工具链与素材进README.md`
+- repo2WCIS.repos：`wiki/repo2WCIS.repos/repo项目索引.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/FPAI30TAI图像FPGA索引.md` · `wiki/repo2WCIS.repos/yuanma/yuanma索引.md` · `wiki/repo2WCIS.repos/工程解读/00-总览与阅读地图.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/组件设计/组件总览与阅读地图.md`
+- 模型与厂商资料清单：`wiki/PL/MOD/modellist/00_模型清单与性能.md` · `wiki/PL/MOD/modellist/09_FPAI-ICraft网络资料/00_总览.md` · `wiki/PL/MOD/modellist/09_FPAI-ICraft网络资料/01_ModelScope-ICraftModelZoo/00_模型清单与性能.md` · `wiki/PL/MOD/modellist/09_FPAI-ICraft网络资料/06_mdz总仓库/00_清单.md` · `wiki/PL/MOD/modellist/09_FPAI-ICraft网络资料/07_benchmark仓库/00_清单.md` · `wiki/PL/FPGA/FPGArt/Procise手册Markdown/README_索引.md`
+- 其他：`wiki/完整复现/完整复现索引.md`（`tags: [完整复现, index]`）· `wiki/PS/WebFrontend/webapp.md`（目录占位 stub）· `wiki/PS/WebFrontend/lang语音链试验台与通信.md` · `wiki/mainchain/重构剩余工作详细清单.md`（指向HA4FPAI docs实施正本）
+
+## 校验与站点
+
+- `python -X utf8 wiki/format/check-md.py` — 文档结构校验（默认扫 `wiki/`）。
+- `python -X utf8 wiki/format/progress.py --check` — 看板总账与汇总是否一致（CI 用）。
+- 站点：最近确认按 D-1793566627 停用自动部署（工作流 `disabled_manually`，2026-11-02）；本轮未联网复核远端设置。Quartz v5.0.0＋GitHub Pages 的配置/装配器仍在 `wiki/site/`，工作流定义在 `wiki/.github/workflows/deploy.yml`；先恢复启用后，push/dispatch 定义才会生效。
+
+## 作品提交
+
+整个 WCIS 项目收工后，提交给比赛举办方的模板，落点主库根 `作品提交/`（已入库：docx 模板、`要打印签名.pdf`、演示 mp4、`对用户.md`）。
+
+## Optional
+
+- `wiki/man/NPU调用链.md`、`wiki/man/FPAI DEMO说明.md` — 厂商链路说明。
+- `wiki/todo/FPGA自研模块清单.md` — 自研 vs 复用的边界结论。
+- `wiki/archive/开发管理/风险与完成判据.md` — 风险与完成判据。
+- `wiki/notes.md`、`wiki/闲话.md` — 零散记录，不入正式页。

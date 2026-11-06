@@ -1,0 +1,8 @@
+[submodule "repos"]
+	path = repos
+	url = https://github.com/WCIS-Team/WCIS-FPAI-repos.git
+	branch = master
+[submodule "wiki"]
+	path = wiki
+	url = https://github.com/WCIS-Team/WCIS-FPAI-wiki.git
+	branch = main

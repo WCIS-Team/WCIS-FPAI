@@ -1,0 +1,75 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# Obsidian / VS Code：vault 入口是 wiki/（D-59），仓库根那份 .obsidian 已退役（D-61）
+# 共享配置（.obsidian/*.json）照常入库，只挡每人的会话状态；插件二进制从社区商店可重下，不入库
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+**/.obsidian/graph.json
+**/.obsidian/cache
+**/.obsidian/plugins/
+**/.obsidian/*.old
+.vscode/*.log
+
+# large binaries kept out of the doc set by size, not by secrecy (D-21):
+# force-add with `git add -f <path>` when one genuinely belongs in the repo
+*.tar
+*.7z
+*.zip
+*.rar
+*.iso
+*.img
+*.bit
+*.hdf
+
+# local scaffolding and superseded originals
+/build-notes/
+
+# FPGA build outputs
+build-x86/
+build-arm/
+board-pkg/
+sim.out
+*.vcd
+
+# python caches
+__pycache__/
+*.pyc
+
+# ---- 2026-09-27 整理时加的硬闸（依据：D-21 凭据例外、[[板端提取件台账]] 第 4 节）----
+# 出借方条款按 D-26（2026-09-28）改判为入库，原先这里的"本地留存笔记"一条已删除。
+
+# 取证提取件（board_extract/）自 2026-10-05 起整目录入库（决策 D-39）：
+# 体积类规则在这里开例外，三件凭据载体仍按名字挡住、永不进仓库
+# —— 见 [[板端提取件台账]] 第 4 节
+# 2026-10-18 该目录搬到 wiki/ProcessingSystem/ 下，规则改成任意层级匹配，例外才继续生效
+!**/board_extract/**
+**/10_etc.tar.gz
+**/11_root_home_vendor.tar.gz
+**/53_rc_local_and_login.txt
+
+# ---- 2026-10-18 目录重组后的永久排除（用户指令）----
+# 这三目录只留本机：不建远程、不做子模块。需要单件时也别 add，直接给路径拷给别人。
+/source/
+/workenv/
+/大文件/
+# 2026-10-25：上面那条 /大文件/ 是死规则——盘上真实目录名是 largefiles/（46 GB）。
+# 名字错位时整树扫描会把它当仓库内容读进内存（实测两次 12.4／13.2 GB、零输出），这条才是真正挡它的。
+/largefiles/
+.memsearch/
+
+# Generated mirrors produced from wiki content; the source pages live in wiki/.
+/site/content/
+/site/content-test/
+/site/__pycache__/
+
+# 2026-11-05: 根目录 . 开头文件夹 + 作品提交/privacy 不入库
+/.qoder/
+/.Xil/
+/作品提交/privacy/
+
+# 2026-11-05: skills 不入库（改由外部/skills 包维护，git 内删除）
+/skills/
