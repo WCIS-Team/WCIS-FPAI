@@ -96,12 +96,12 @@ wiki/
 
 约定正文在 [AGENTS.md](./AGENTS.md) §三的「`#index`」小节（判据：**价值在导航不在事实**）。本清单是打了 `tags: [index]` 的**全量登记**：新打标页来此补一行、除名来此删一行，实测以 `rg -l '^tags:.*\bindex\b' wiki --glob '*.md'` 为准。
 
-**2026-11-07 按检索实测重刷＝17 页。** 与旧清单（记 24 页）的差额全部是目录重构与删页带来的，逐条有账：`wiki/完整复现/完整复现索引.md` 与 `wiki/repo2WCIS.repos/工程解读/00-总览与阅读地图.md` 已不在盘上（前者在 git 历史里也不存在，属入口文档的空指路）；`wiki/repo2WCIS.repos/yuanma/yuanma索引.md` 于 2026-11-07 删除（`repos/yuanma/` 已不存在，对应内容并入 [[repo项目索引]] 第七节）；`PL/MOD/modellist/*`、`PL/MOD/modellist/09_FPAI-ICraft网络资料/*`、`PL/FPGA/FPGArt/Procise手册Markdown/README_索引.md` 四组清单页随 2026-11-06 `b51ca96` 移入 `wiki/official/` 且不再带 `tags: [index]`；`PS/psdev.md`→`PS/psrt&dev/psdev.md`，`PS/hardware/…`·`PS/board_extract/…`→`PS/psrt&dev/…` 下，`PS/WebFrontend/…`→`PS/oldmainchain/WebFrontend/…`。 **2026-11-08 复核实测＝24 页**（含新增 `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`，ha-cut 系列总览，`tags: [index]`）。
+**2026-11-07 按检索实测重刷＝17 页。** 与旧清单（记 24 页）的差额全部是目录重构与删页带来的，逐条有账：`wiki/完整复现/完整复现索引.md` 与 `wiki/repo2WCIS.repos/工程解读/00-总览与阅读地图.md` 已不在盘上（前者在 git 历史里也不存在，属入口文档的空指路）；`wiki/repo2WCIS.repos/yuanma/yuanma索引.md` 于 2026-11-07 删除（`repos/yuanma/` 已不存在，对应内容并入 [[repo项目索引]] 第七节）；`PL/MOD/modellist/*`、`PL/MOD/modellist/09_FPAI-ICraft网络资料/*`、`PL/FPGA/FPGArt/Procise手册Markdown/README_索引.md` 四组清单页随 2026-11-06 `b51ca96` 移入 `wiki/official/` 且不再带 `tags: [index]`；`PS/psdev.md`→`PS/psrt&dev/psdev.md`，`PS/hardware/…`·`PS/board_extract/…`→`PS/psrt&dev/…` 下，`PS/WebFrontend/…`→`PS/oldmainchain/WebFrontend/…`。 **2026-11-08 复核实测＝25 页**（含新增 `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`，ha-cut 系列总览，`tags: [index]`）。
 
 - 文档库门面与总纲：`wiki/README.md` · `wiki/PS/psrt&dev/psdev.md` · `wiki/PL/pldev.md` · `wiki/PL/plvid.md` · `wiki/PL/plnet.md`
 - 档案与台账索引：`wiki/PS/psrt&dev/hardware/硬件与基础运行环境档案.md` · `wiki/PS/psrt&dev/board_extract/板端提取件台账.md` · `wiki/PS/psrt&dev/board_extract/README.md` · `wiki/PS/板端我方代码与产物台账.md` · `wiki/todo/工具链与素材进README.md`
 - repo2WCIS.repos：`wiki/repo2WCIS.repos/repo项目索引.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/FPAI30TAI图像FPGA索引.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/组件设计/组件总览与阅读地图.md`
-- 其他：`wiki/PS/oldmainchain/WebFrontend/webapp.md`（目录占位 stub）· `wiki/PS/oldmainchain/WebFrontend/lang语音链试验台与通信.md` · `wiki/mainchain/重构剩余工作详细清单.md`（指向 HA4FPAI docs 实施正本） · `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`（ha-cut 系列总览，`tags: [index]`）
+- 其他：`wiki/PS/oldmainchain/WebFrontend/webapp.md`（目录占位 stub）· `wiki/PS/oldmainchain/WebFrontend/lang语音链试验台与通信.md` · `wiki/mainchain/重构剩余工作详细清单.md`（指向 HA4FPAI docs 实施正本） · `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`（ha-cut 系列总览，`tags: [index]`） · `wiki/PS/ha/HA4FPAI-设计总览.md`（HA4FPAI 整机设计总览，`tags: [index]`）
 
 > `wiki/official/` 里那批厂商清单页（模型清单、ModelScope ModelZoo、mdz 总仓、benchmark 仓、Procise 手册索引）现在靠 **`wiki/official/INDEX.md`**（只列名字的入库索引）定位，不再走 `#index` 标签——这是 11-06 重构的既定口径，不是漏标。
 
