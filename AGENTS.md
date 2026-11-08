@@ -173,6 +173,7 @@
 
 ## 七、提交与推送（细节见 CONTRIBUTING.md）
 
+- **提交身份不许覆盖（2026-11-08 定）**：所有提交一律用全局身份 `takomitkm <takomitkm@outlook.com>`。**禁止**用 `-c user.name=`／`-c user.email=` 或 `GIT_AUTHOR_*`／`GIT_COMMITTER_*` 把某一次提交临时改成别的身份（历史事故：`WCIS agent <agent@wcis.local>`、`takomi <takomi@local>` 这类 `.local` 邮箱在 GitHub 账号里无法验证，提交不被认作本人、署名丢失，能救的路只剩重写历史＋强推，属高危）。提交前自检：`git log -1 --format='%an <%ae>'` 必须是 `takomitkm <takomitkm@outlook.com>`。历史归并口径见 `CONTRIBUTING.md` §八「提交身份」与仓库根 `.mailmap`。
 - **内容只进它自己的子库**：页面进 `wiki/` 库（`git -C wiki push`，站点跟这一笔走），代码进 `repos/` 库（`git -C repos push`）。只推主库不会把子库内容带上去，只会留一个指不到提交的指针。
 - **推模块子仓库时，顺带更新主库指针——但主库其他部分一律不碰**（2026-11-02 她改判并明确范围）。
   - **触发时机**：推 `repos/` 或 `wiki/`（＝主库的两个模块子仓库）时，顺手把主库对应 gitlink 一起更新。不用再逐次问她。

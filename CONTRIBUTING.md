@@ -150,6 +150,20 @@ git -c http.proxy=http://127.0.0.1:7897 -c https.proxy=http://127.0.0.1:7897 pus
 >
 > 另一个前提：子库那个 commit **必须已推到子库远端**，否则别人 `submodule update` 拉不到。**顺序永远是：先推子库 → 再 bump 主库 → 最后推主库。**
 
+### 提交身份（不得覆盖）
+
+所有提交一律用全局身份 `takomitkm <takomitkm@outlook.com>`。**禁止**在提交时用 `-c user.name=…`／`-c user.email=…`，或 `GIT_AUTHOR_NAME`／`GIT_AUTHOR_EMAIL`／`GIT_COMMITTER_*` 把某一次提交临时改成别的身份。
+
+2026-11-08 排查到一批提交就是这么变成 `WCIS agent <agent@wcis.local>` 与 `takomi <takomi@local>` 的：`.local` 邮箱没法在 GitHub 账号里验证，提交就不会被认作本人（通用头像、名字不是链接），署名凭空丢了；能救的路只剩重写历史＋强推，属高危。**这是唯一一次踩到的坑，别再踩。**
+
+提交前自检（应输出 `takomitkm <takomitkm@outlook.com>`）：
+
+```bash
+git log -1 --format='%an <%ae>'
+```
+
+仓库根与 `wiki/` 各有一份 `.mailmap`，把上述历史身份归并显示回本人；`.mailmap` 只改显示与统计归并，**不改写提交对象里的作者邮箱**，所以 GitHub 单提交页的头像／链接仍按原始邮箱判定——真正的修法是以后别再覆盖身份。
+
 ## 九、体积与内容范围
 
 **体积是硬闸，不是风格问题**：GitHub 对单文件 >100 MiB 直接拒绝整个 push（按 blob 判，跟打包后大小无关），50 MiB 起警告。所以 `.gitignore` 里那些体积规则是承重的：`*.lib *.a *.o`、`*.bit`、压缩包、模型与轮子都在库外。顶层三目录永久排除、只在本机一份：`source/`、`workenv/`、`largefiles/`（2026-10-25 更正：这里旧写作 `大文件/`，盘上真名是 `largefiles/`，`.gitignore` 里那条 `/大文件/` 挡不住任何整树扫描，已另补 `/largefiles/`）。要单件时用 `git add -f <路径>` 强制加入，但先确认它不超过 100 MiB，否则整笔 push 会被拒。
