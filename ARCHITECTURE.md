@@ -15,7 +15,9 @@
 | `WCIS-FPAI-wiki` | `main` | `wiki/` | 文档库：本项目全部人类可读 Markdown，**同时就是 Obsidian vault** |
 | `WCIS-FPAI-repos` | `master` | `repos/` | 代码库：我方代码 ＋ 厂商 FPGA demo |
 
-两个子模块各自**自带** `.gitattributes` 与 `.gitignore`——主库那两份不跨子模块生效（D-1792368000）。`repos/HA4FPAI/` 另带自有 Git 历史与远端，现势目录包含 `klar/`、`boards/`、`lang/`、`web/`；语言链已整体收进 `HA4FPAI/lang/`，旧 `repos/lang/` 不再是当前入口。
+三库的远端**全部在 GitHub 组织 [`WCIS-Team`](https://github.com/orgs/WCIS-Team/repositories) 下**（2026-11-06 以当时文件快照重建为无父提交的单提交根历史，D-1793967893；旧 `takomitkm/*` 地址只有 301 跳转）。组织里另有五个工程仓：`HA4FPAI`、`fmql30tai-sdi-npu-face-recognition`（原 `repos/yuanma/` 提交快照的公开形状）、`ERNIE-4.5-0.3B-PT4icraft430tai`、`Qwen3-0.6B4icraft430tai`、`Qwen2_0.5B_zg3.36.1_axi_demo`；组织外唯一例外是 `takomitkm/ekho-Linux`。仓库↔本地目录的逐条对应正本＝`wiki/repo2WCIS.repos/repo项目索引.md` 第一节，本页不复制那张表。
+
+两个子模块各自**自带** `.gitattributes` 与 `.gitignore`——主库那两份不跨子模块生效（D-1792368000）。`repos/HA4FPAI/` 另带自有 Git 历史与远端，现势目录包含 `klar/`、`boards/`、`lang/`、`control/`、`web/`；语言链已整体收进 `HA4FPAI/lang/`，旧 `repos/lang/` **盘上已不存在**，不再是任何入口。`repos/` 顶层另有一批**只在本机、2026-11-05 起不入库**的目录（`FPAI30TAI图像FPGA/`、`official/`、`unofficial/`、`ha-small/`），判据与替代真身见 [[repo项目索引#四、本机保留不入库的目录|repo项目索引——第四节]]。
 
 ## 1.2 主库目录
 
@@ -38,34 +40,35 @@ S:\work\WCIS\
 ```
 wiki/
 ├── README.md          首页：项目简介、工程路线四步、目录表、阅读方式
-├── dict.md            术语表        notes.md / 闲话.md   零散记录
+├── dict.md  闲话.md     术语表 / 零散记录（notes.md 已删）
 ├── SOP/               可照抄的操作规程，一页一条链路的「怎么跑＋怎么判过了」
-│   └── MOD/           模型与工具链类 SOP
-├── PL/                可编程逻辑（Programmable Logic）
-│   ├── FPGA/          位流与器件库（FPGArt/、BIT/、BOOT_Gen/）
-│   └── MOD/           NPU 模型（asr/、llm/、modellist/、modrt/）
+│   ├── MOD/           模型与工具链类（＋ test/ 子目录＝测试类；NPU调用链 从 man/ 移来）
+│   └── wikimgr/       文档库与站点自身（Quartz→Pages、num-audit、同步、录音筛选、skill 检索）
+├── ops/               Windows 主机与校机运维（交叉编译路由、无容器/无 WSL、Klar 上板、代理与登录、免 UAC、提权与通知）
+├── PL/                可编程逻辑（pldev／plvid／plnet 三页总纲）
+│   ├── FPGA/          自著页：位流手术、Verilator 长跑仿真、PL 网口 bring-up、sdi-psddr、sdi2hdmi、SDI→PS、SDI→HDMI
+│   └── MOD/           NPU 模型自著页（＋ llm/ 子目录＝LLM 迁移线）
 ├── PS/                处理系统（Processing System）
-│   ├── Backend/       OrchestrationLayer/  WebFrontend/   三块后端/编排/前端（**目录真名是 `Backend/`，旧文写作 `ModelBackend/`**，2026-11-01 更正）
-│   ├── emmc/          eMMC 提速七篇（01-结论汇总 … 07-踩坑；`README.md` 是目录入口）
-│   ├── board_extract/ 板端取证提取件（整目录入库，D-1791158407）
-│   ├── hardware/      只读采集档案 ＋ `raw_logs/`（SOP 2 原始输出，**`raw_logs` 在这层下，不在 PS 根**）
-│   ├── psrt/          板端运行时资料与优化笔记（`rt/` 里有 OS 现状页 `os.md` 与草稿 `rt.md`）
-│   └── WebFrontend/   前端说明
-├── archive/           初稿与被撤销页面；承重页也住这里
-│   └── 开发管理/       状态源与决策记录、进度看板、风险判据、清单、实施路线…
-├── man/               手册与厂商转档（整目录免页面形状校验，D-1792281605）
-├── format/            校验与行尾脚本
-├── site/              Quartz 站点：装配器、配置、lock、robots、加固脚本
-├── todo/              待办与待验证清单
-├── mainchain/         链路草图
-├── ops/               Windows 主机运维（SSH 登录告警、免 UAC 提权、校机代理与 GitHub 登录）
-├── repo2WCIS.repos/   与 repos/ 对应的说明页（**目录真名；旧文误写作 `repo对应WCIS.wiki.repo`**，2026-11-01 更正）
+│   ├── 板端我方代码与产物台账.md   板端落点唯一台账（#nnn 编号＋删件墓碑行）
+│   ├── psrt&dev/      os.md（OS 层改动唯一归口）· psdev · 板端内存上限与心跳日志
+│   │   ├── hardware/  板端设备事实页 ＋ 硬件与基础运行环境档案 ＋ raw_logs ＋ emmc/（七篇）
+│   │   └── board_extract/  板载系统镜像提取件（⚠ 现被 `wiki/.gitignore` 整目录挡住，只在本机）
+│   ├── oldmainchain/  HA4FPAI 统一语音链之前的主链记录：Backend（mods/audio＝全部 TTS 页）· OrchestrationLayer · WebFrontend
+│   └── ha/            HA4FPAI-CI开发记录 ＋ ci-records/2026-11-05 原始证据（保留原始字节，不作普通页改写）
+├── mainchain/         HA4FPAI 与视频联合规划五篇 ＋ 阶段01–05 ＋ 重构剩余工作详细清单（2026-11-07 统一归口这里）；cloud.md·s2s.md＝历史链路草图
+├── repo2WCIS.repos/   与 repos/ 对应的说明页；入口 repo项目索引；FPAI30TAI图像FPGA/ 组件设计系列
+├── official/          外部资料集中区（厂商手册/教程、ModelScope 模型卡、CSDN/知乎/eeworld 转载、飞书导出、Procise 手册、demo 工程转档）——⚠ 整目录不入库、站点不发布，只有 INDEX.md 入库
+├── archive/           初稿与被撤销页面；承重页也住这里（开发管理/）
 ├── schoolhardware/    校机（Windows 宿主）SOP 2 归档：机器产物 JSON ＋ raw_logs ＋ 生成页
-├── agentpreview/      根级 AGENTS／ARCHITECTURE／CONTRIBUTING 的**旧快照副本**（非正式页，留档用）
+├── format/            校验与行尾脚本（久未更新，见 §1.5）
+├── site/              Quartz 站点：make-content.py · check-plugins.py · harden-site.py · quartz.config.yaml · quartz.lock.json · robots.txt
+├── todo/              待办与待验证清单（better／dev／路线要更新）
 └── .github/workflows/deploy.yml  站点工作流正本
 ```
 
-分层规则：**内容按「PL／PS／SOP／archive／man」分，而不是按人分**。厂商转档、抓来的博客、取证提取件进 `RAW_DIRS`，不做页面形状与正文校验，但页名仍参与双链解析。**`RAW_DIRS` 的准头在代码里，不在本页**：`wiki/format/check-md.py:23` 与 `wiki/site/make-content.py:44` 各有一份，当前 `check-md.py` 那份是 11 项（`modellist`／`modrt`／`modtest`／`psrt`／`fpai-blog`／`repo2WCIS.repos`／`board_extract`／`man`／`schoolhardware`／`Procise手册Markdown`／`4compile`；2026-11-04 按脚本核对，旧文写作 12 项并把 `FAQ共建_images` 列进来是错的——它只在站点侧那份里）。⚠ **2026-11-01 实测：两份不一致**——`make-content.py` 那份 8 项，缺 `man`／`schoolhardware`／`Procise手册Markdown`／`4compile` 四项 ⇒ 这几处的页面被校验器放过、却仍会被站点当正式页发布；反向它多一项 `FAQ共建_images`（只挡站点不挡校验，无害）。**改 `RAW_DIRS` 必须两处同改**，这是本轮登记的缺陷，尚未修。
+**2026-11-06 提交 `b51ca96` 做过一次大重构，本节这棵树是按它之后的盘面重画的**：`PS/Backend|OrchestrationLayer|WebFrontend` → `PS/oldmainchain/` 下；`PS/psrt/rt/os.md` → `PS/psrt&dev/os.md`；`PS/hardware`·`PS/emmc`·`PS/board_extract` → `PS/psrt&dev/` 下；`man/` → `SOP/MOD/` 与 `official/`；`PL/MOD/modellist`·`PL/MOD/modrt`·`PL/FPGA/FPGArt`（含 Procise 手册转档）·`fpai-blog`·厂商 `psrt` 转档 → `wiki/official/`（整目录改为不入库）；`PL/FPGA/4compile/` → `largefiles/4compile/`；`SOP/` 拆出 `MOD/test/` 与 `wikimgr/`，交叉编译类移入 `ops/`；`agentpreview/`·`完整复现/`·`notes.md`·`llms.md`·`agent.md` 删除。
+
+分层规则：**内容按「PL／PS／SOP／archive／official」分，而不是按人分**。厂商转档、抓来的博客、取证提取件进 `RAW_DIRS`，不做页面形状与正文校验，但页名仍参与双链解析。⚠ **`RAW_DIRS` 的准头在代码里、不在本页**：`wiki/format/check-md.py` 与 `wiki/site/make-content.py` 各有一份，两份本就长期不一致（`make-content.py` 那份另与 `wiki/.gitignore` 的 `/official/*` 对齐，并靠 `git_visible()` 把不入库内容挡在站点外）；**11-06 重构后两份里的旧目录名都还没跟着改**，所以现在这两套豁免规则对 `man/`·`PL/MOD/modrt`·`PL/MOD/modellist`·`PL/FPGA/FPGArt`·`PL/FPGA/4compile` 的条目已经指不到东西。**改 `RAW_DIRS` 必须两处同改**——这条缺陷仍是登记状态，本轮未修（`wiki/format/` 你已声明久未更新，不作为规范源）。
 
 ## 1.4 承重页与数据流
 
@@ -103,18 +106,19 @@ wiki/
 | `check-md.py` | 文档结构校验：未解析双链、页名重复、锚点指不到真实标题／块、H1 与文件名不符、CRLF／BOM、Mermaid `internal-link` 节点标签（`## 相关页面` 自 D-1793628864 起不查） |
 | `progress.py` | 由 §3.1 总账表推导并回写 §3.2；`--check` 只校验（CI 用），`--list` 列未完成卡，`--tick` 改一行 |
 | `fix-eol.py` | 一次性把散落文件的行尾／BOM 转回来 |
-| `lf.py` | 拖拽式行尾转换的小工具 |
-| `allconvert2md.py`、`rename/` | 转档与批量改名 |
+
+⚠ **2026-11-07 更正**：本节原来还列 `lf.py`、`allconvert2md.py`、`rename/` 三项——盘上 `wiki/format/` 现在**只有上面这三份**，那三项已不在。她 2026-11-07 明确指示 `wiki/format/` 久未更新，**它的规则不当代写作规范源**：页形与协作口径看 `CONTRIBUTING.md` 与 `AGENTS.md`，这三份脚本只当读数工具。当前 `check-md.py` 全树实测基线＝236 problems／152 groups（2026-11-07），其中大头是 11-06 重构删掉的页留下的 unresolved wikilink。
 
 两个校验脚本都按目录读，不读 git；`os.walk` 里剪掉 `site`／`qbuild`／`public`／`node_modules`／`.quartz-cache`（`BUILD_DIRS`），否则会把装配器自己的产物当原料吃掉。
 
 ## 1.6 站点链路
 
-- **最近确认状态**：D-1793566627（2026-11-02）停用站点工作流，`wiki/.github/workflows/deploy.yml` 文件头也保留 `disabled_manually` 说明。按此记录，push 不触发构建，手动 dispatch 亦不可用；本轮未联网复查远端设置。
-- **启用后的触发定义**：push 到 `wiki` 库 `main`（不带 `paths` 过滤）或 `workflow_dispatch`；需先显式恢复工作流，不能仅凭 YAML 中有 push 条件推断站点正在更新。
-- 链路：`actions/checkout`（`fetch-depth: 0`，日期要全史）→ 取 Quartz `v5.0.0` 到 `qbuild/` → 恢复插件缓存 → `site/make-content.py` 装配内容 → `npx quartz build` → `site/harden-site.py` 加固 → 上传制品 → `deploy-pages`。
-- 装配口径：**库根即内容树**（`TREES = ("",)`、`HOME_PAGE = "README.md"` 落站点根 `index.md`），所以站点页面路径＝库内路径。
-- 开关：仓库变量 `PUBLISH`——不存在＝照常发布，建成 `false` 只跳过部署（站点冻在最后一版，URL 不 404）。
+- **当前状态（2026-11-06 恢复，D-1793969383 推翻 D-1793566627 的停用）**：Pages 来源＝GitHub Actions，站点 **<https://wcis-team.github.io/WCIS-FPAI-wiki/>**；工作流 `Build and publish wiki site`（id `390042843`）已重新启用，仓库变量 `PUBLISH` 已打开；文档库同时被改为 **public**。站点 baseUrl 与 GitHub 导航都已改到 `WCIS-Team`。`wiki/.github/workflows/deploy.yml` 文件头保留了"停用已被取代"的说明。
+- **触发定义**：push 到 `wiki` 库 `main`（不带 `paths` 过滤）或 `workflow_dispatch`。**新历史只有重建后的提交，页面历史日期因此以新历史为限**（D-1793969383 内容与边界）。
+- **链路**：`actions/checkout`（`fetch-depth: 0`，日期要全史）→ 取 Quartz `v5.0.0` 到 `qbuild/` → 恢复插件缓存（key `quartz-plugins-v2-…`，命名空间已升 v2）→ **`site/check-plugins.py prepare`**（为版本不符的缓存插件**预取精确锁定 SHA**，避免浅克隆里没有锁定提交导致插件更新失败而 Quartz 仍返回成功，D-1793971282）→ `npx quartz plugin install` → **`check-plugins.py verify`**（逐插件核 HEAD 与 dist 入口）→ `plugin resolve` → `make-content.py` 装配内容 → `npx quartz build` → **`check-plugins.py output`**（检查 contentIndex 所有标题不带 `Folder:`）→ `site/harden-site.py` 加固 → 上传制品 → `deploy-pages`。
+- **目录页显示**：`folder-page` 插件固定到支持 `prefixFolders` 的上游提交 `6e740cc…` 并显式 `prefixFolders=false`（去 `Folder:` 前缀）；文件夹页不再清空右栏，继承关系图与反向链接（D-1793970553）。关系图组件标题由 `harden-site.py` 就地替换为 `Graph View (Ctrl+G)`，找不到任何图标题即构建失败（D-1793972954）。
+- 装配口径：**库根即内容树**（`TREES = ("",)`、`HOME_PAGE = "README.md"` 落站点根 `index.md`），所以站点页面路径＝库内路径；不入库的内容（`official/`、`board_extract/`、体积类与凭据具名件）由 `RAW_DIRS` 与 `git_visible()` 两道闸挡在发布集合外。
+- 开关：仓库变量 `PUBLISH`——不存在＝照常发布，建成 `false` 只跳过部署（站点冻在最后一版，URL 不 404）；要停构建另需 Disable workflow。
 - 爬虫：全站 deny-all（`site/robots.txt` ＋ 每页 `noindex` ＋ 删 `sitemap.xml`），由 `harden-site.py` 在构建后注入，注不进去当场失败。
 
 ---
@@ -125,8 +129,9 @@ wiki/
 
 **CPU＋FPGA＋NPU 异构多模态边缘智能终端**。以下为 2026-11-04 源码与既有验证记录对齐后的结构，区分已实现接口、历史板端测试和待集成能力；不代表本轮重新探测板端在线状态。
 
-- **视觉工程**：`repos/FPAI30TAI图像FPGA/` 包含 SDI 采集、FAC1 几何预处理、NPU 人脸身份与 PAD、VPU 硬编码、预览和 eMMC 录像。详见 `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/FPAI30TAI图像FPGA索引.md`。
-- **系统软件**：`repos/HA4FPAI/` 集中上层控制、语言链及交互界面。`lang/server/` 编排语音组件，`klar/` 负责 NLU 集成和执行器，`boards/` 提供控制台与设备验证框架，`web/` 提供试验台和原生 HMI。
+- **视觉工程**：开发树 `repos/FPAI30TAI图像FPGA/` 包含 SDI 采集、FAC1 几何预处理、NPU 人脸身份与 PAD、VPU 硬编码、预览和 eMMC 录像（该目录 2026-11-05 起**只在本机、不入库**）。对外发布的交付形状是 [WCIS-Team/fmql30tai-sdi-npu-face-recognition](https://github.com/WCIS-Team/fmql30tai-sdi-npu-face-recognition)＝`repos/fmql30tai-sdi-npu-face-recognition/`（`源码/fpga_source`·`ps_source`·`board_runtime`·`fpga_restore`·`logpack`＋`FMQL30TAI-Install/`＋带原许可的 `models/`），厂商 Confidential 件按其 `.gitignore` 排除。详见 `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/FPAI30TAI图像FPGA索引.md` 与 [[repo项目索引#七、视频交付仓的目录形状|repo项目索引——第七节]]。
+- **系统软件**：`repos/HA4FPAI/` 集中上层控制、语言链及交互界面。`lang/server/` 编排语音组件，`lang/npuserv/` 做 NPU 槽位监督（**归 Qoder 会话**），`klar/` 负责 NLU 集成和执行器，`boards/` 提供控制台与设备验证框架，`control/` 是统一控制与资料层骨架（SQLite 业务主库＋版本化 HTTP＋持久 outbox，见 [[HA4FPAI与视频联合总规划]]），`web/` 提供试验台和原生 HMI；模型交付线以子模块挂在 `lang/llm/models/` 与 `lang/tts/ekho-linux`。
+- **另一条独立线**：`repos/ha-small/` 是 Home Assistant Core 2026.10.4 的删除式裁剪产物，**只在本机暂存、无远端**，归属定为 `HA4FPAI` 的 `ha-small` 分支材料（D-1794005260 修正 D-1793914150）；它不替代上面的 HA4FPAI 重构线。
 - **已有板端语音验证**：重烧后以在线 ASR、云端 LLM 和 Edge TTS 恢复服务；HTTP、Wyoming、文件模拟对话和严格文本切块分别留下记录。真实麦克风、扬声器以及最新十级链整链验收仍待完成。
 - **后续集成**：离线 LLM 问答、语音触发看图/OCR、融合身份授权与真实门锁动作均不能由早期规划推定为已交付。
 

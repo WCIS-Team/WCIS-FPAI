@@ -57,7 +57,7 @@
 
 ## 一、每次新任务的信息来源（整节作废）
 
-- **2026-11-04 她裁**：`http://10.101.54.192:18080/` 信息站已作废，本节整节撤销，不再作为任何任务的开工信息来源。开工信息以本地 `llms.txt`、`wiki/README.md`、`ARCHITECTURE.md` 为准。节号保留占位，免得后面各节重号。
+- **2026-11-04 她裁**：旧内网信息站已作废（地址按她 2026-11-07 指令不再记于此），本节整节撤销，不再作为任何任务的开工信息来源。开工信息以本地 `llms.txt`、`wiki/README.md`、`ARCHITECTURE.md` 为准。节号保留占位，免得后面各节重号。
 
 ## 二、干活纪律
 
@@ -78,16 +78,16 @@
 - 页面级归类标签写在 frontmatter（文件开头的三横线块内）：`tags: [标签名]`；一页可多标（`tags: [完整复现, index]`）。Obsidian 即成 `#标签`，标签面板与搜索都能聚合。
 - 命令行检索模板：`rg -l '^tags:.*\b<标签>\b' wiki --glob '*.md'`；任何清单都以检索实测为准，正文里的计数会过期，别当真值。
 - **每新立一个 tag，必须在本节下挂一个小节**（判据＋写法＋检索），需要全量页单的（如 `#index`）同时把清单登记进 `llms.txt`，打标／除名时随手维护。
-- **现在有两个 tag**：`#SOP`（操作规程页）与 `#index`（索引页），约定分见下面两小节。
+- **现在有三个 tag**：`#SOP`（操作规程页）、`#index`（索引页）、`#error`（故障/错误诊断页），约定分见下面各小节。
 
 ### `#SOP`：操作规程页
 
-**现状（2026-11-04 按约定检索命令实测）：已打标 26 篇，当年「待办」17 篇清单已清零**——15 篇打齐，`bitproc.md`／`modproc.md` 两个残缺片段暂不打标（见待办）；`ops/` 三篇 Windows 运维规程同轮一并打标。约定从本文件起生效。**以标签清单为准，别信这句文字**：`rg -l '^tags:.*\bSOP\b' wiki --glob '*.md'`。
+**现状（2026-11-07 按约定检索命令实测）：已打标 29 篇**（2026-11-04 那轮 26 篇之后，目录重构与新增页使清单变长；当年「待办」17 篇清单已清零）。`bitproc.md`／`modproc.md` 两个残缺片段仍不打标（见待办）。约定从本文件起生效。**以标签清单为准，别信这句文字**：`rg -l '^tags:.*\bSOP\b' wiki --glob '*.md'`。
 
 #### 约定
 
 - SOP 页的 frontmatter 写 `tags: [SOP]`（YAML，文件开头的三横线块内）。Obsidian 里即成 `#SOP` 标签，标签面板与搜索都能聚合。
-- 位置：SOP 页放 `wiki/SOP/`，模型／工具链类放 `wiki/SOP/MOD/`，Windows 主机运维类放 `wiki/ops/`；与某条具体链路强绑定的也可以就放在那条链路旁边（如 `wiki/PS/OrchestrationLayer/VPU串流直播SOP.md`）。
+- 位置：SOP 页放 `wiki/SOP/`，模型／工具链类放 `wiki/SOP/MOD/`（测试类在 `wiki/SOP/MOD/test/`，文档库与站点自身的在 `wiki/SOP/wikimgr/`），Windows 主机与校机运维类放 `wiki/ops/`；与某条具体链路强绑定的也可以就放在那条链路旁边（如 `wiki/PS/oldmainchain/OrchestrationLayer/VPU串流直播SOP.md`）。
 - 一页一条链路：写清「怎么跑 ＋ 怎么判过了」。判据要可复现，读数要带来源。
 
 #### 新建 SOP 时
@@ -113,7 +113,7 @@
 
 #### 待办（2026-11-04 已清零）
 
-当年那张 17 篇清单处理完毕：**15 篇带上了 `tags: [SOP]`**；`bitproc.md`（16 行草稿碎片，页内自述"处理完再放回 wiki"）与 `modproc.md`（8 行残缺表片段，各行正本都在别页）**不是成形的规程，暂不打标**——补成真页或挪去 `todo/`，等她发落。同轮另把 `ops/` 三篇 Windows 运维规程（[[Windows免提权弹通知与SSH登录告警]]、[[校机代理与GitHub登录SOP]]、[[校机无UAC远程操作与零窗口SOP]]）一并打标。**此后不再维护纸质待办清单**：新 SOP 页落笔即带 `tags: [SOP]`，清单以检索命令为准。
+当年那张 17 篇清单处理完毕：**15 篇带上了 `tags: [SOP]`**；`bitproc.md`（16 行草稿碎片，页内自述"处理完再放回 wiki"）与 `modproc.md`（8 行残缺表片段，各行正本都在别页）**不是成形的规程，暂不打标**——补成真页或挪去 `todo/`，等她发落。同轮另说"把 `ops/` 三篇 Windows 运维规程一并打标"——**这句按 2026-11-07 实测更正**：那三篇里 `Windows免提权弹通知与SSH登录告警`（当时指的名字）**从来没有 frontmatter、也就从没带过标**，且该页已于 2026-11-06 目录重构 `b51ca96` 删除；现役 `ops/` 里带 `tags: [SOP]` 的是 **7 篇**（`win无wsl交叉编译`、`交叉编译主机路由SOP`、`校机交叉编译环境搭建SOP`、`校机代理与GitHub登录SOP`、`校机无UAC远程操作与零窗口SOP`、`校机无容器交叉编译`、`校机构建Klar前端并部署上板SOP`），唯一不带标的是 [[Windows提权与通知失败记录]]（它按定位是**失败史**、不是可照抄的规程，不打标是对的）。**此后不再维护纸质待办清单**：新 SOP 页落笔即带 `tags: [SOP]`，清单以检索命令为准。
 
 > **2026-10-31 新增 [[板端磁盘清理SOP]]**（`wiki/SOP/板端磁盘清理SOP.md`，frontmatter 带 `tags: [SOP]`）。它管"板子快满怎么安全清"：第 0 步 `find -newermt "-15 minutes"` 查有没有别的会话在写（**只删自己确认没人用的**）→ 分级（缓存／已装包残留／测试期产物／模型权重，**第四级必须她点头**）→ 只做到第一级也能回收 800M–1G → 删完 `df` 复读＋8 项服务复查 → 回写台账墓碑行与 [[06-磁盘清理清单]]。判据正本在 [[06-磁盘清理清单]]（2026-10-31 已全量重刷），删除记录在 [[板端我方代码与产物台账]] §廿四。
 >
@@ -123,10 +123,16 @@
 
 ### `#index`：索引页（2026-11-04 她定）
 
-- **什么页打**：以"指向别处"为职的页面——索引页、总纲/总览、清单、台账、阅读地图、目录占位 stub（`PS/WebFrontend/webapp.md` 那类）。判据＝**页面的价值在导航而不在事实**；事实页不打（反例：`dict.md` 的词条是定义本体、`00_失败与限制` 登记的是事实，都不打）。
-- **怎么写**：frontmatter 三行，与 SOP 同款——`tags: [index]`；可与项目自有标签并存（`完整复现索引.md` ＝ `tags: [完整复现, index]`）。
+- **什么页打**：以"指向别处"为职的页面——索引页、总纲/总览、清单、台账、阅读地图、目录占位 stub（`PS/oldmainchain/WebFrontend/webapp.md` 那类）。判据＝**页面的价值在导航而不在事实**；事实页不打（反例：`dict.md` 的词条是定义本体、`00_失败与限制` 登记的是事实，都不打）。
+- **怎么写**：frontmatter 三行，与 SOP 同款——`tags: [index]`；可与项目自有标签并存（多标的例子见 `llms.txt`「索引页（#index）」一节）。⚠ 原来举的 `完整复现索引.md` 那页已不在盘上（`wiki/完整复现/` 整个目录 2026-11-06 起不存在，git 历史里也没有）。
 - **检索**：`rg -l '^tags:.*\bindex\b' wiki --glob '*.md'`；Obsidian 标签面板点 `index`。
 - **全量清单的正本在 `llms.txt`「索引页（#index）」一节**——本节只管规则，不维护清单；打标／除名时去 llms.txt 登记一行，实测以检索命令为准。
+
+### `#error`：故障/错误诊断页（2026-11-08 她定）
+
+- **什么页打**：记录**已发生的故障/错误**的页面——现象、根因（带证据）、修法、边界条件。不打 `#SOP`（那是“怎么跑＋怎么判过”的规程）；一页既给规程又做诊断时可多标（`tags: [SOP, error]`），但默认分开。
+- **怎么写**：frontmatter 三行——`tags: [error]`；正文要有**证据来源**（日志/读数/时间）和**机制**（别只写“重启就好了”）。修法落在页内；若修法已固化成规程，规程单独成页打 `#SOP`，本页只链接过去。
+- **检索**：`rg -l '^tags:.*\berror\b' wiki --glob '*.md'`；Obsidian 标签面板点 `error`。分类 tag，不维护全量页单。
 
 ## 四、三台机与网络
 
@@ -135,13 +141,13 @@
 | 本机 | `192.168.1.107` tkmnopc | `takomi` / `<见凭据管理器>` | Windows 主力工作站，可 ssh；`S:\work\WCIS` 在这里，大部分信息都在这台机器上；有时可经路由器 `18389` 端口 RDP。直连 `github.com:443` 会被重置，推送要走本机代理 `127.0.0.1:7897`；`api.github.com` 反过来必须直连（代理给 403） |
 | 校机 | `ssh school-guest`（另有 `-lan`／`-pc2` 两个别名，三条都落同一台，实测 `hostname` 全是 `Win11-HV1`） | `YiZhidi` | **2026-10-31 实测更正：ssh 进去的是台 Windows 11 虚拟机**（`Win11 Pro for Workstations`／build 26200，`whoami`＝`win11-hv1\yizhidi`，`Win32_ComputerSystem`＝Microsoft Corporation／Virtual Machine、`HypervisorPresent`＝True），硬件是 AMD EPYC 9654、24 物理核／24 逻辑核、125 GB——即那台主机的子机，**不是"仅 CPU 的 Linux 机"**。该机**没有 iCraft、没有 WSL、没有任何容器运行时**（`where icraft` 空、`C:\Icraft` 不存在、`wsl --status`／`wsl --version` RC＝50／1 报未安装、PATH 里无 docker／podman／nerdctl／containerd、服务表只有 `HvHost`（Stopped／Manual）、Program Files 无容器类目录、无 Linux 类 Appx），**我也补不回来**：`whoami /groups`＝`Medium Mandatory Level`（S-1-16-8192）、组只有 Users＋Remote Desktop Users（administrators 里只有 `Administrator` 与 `SuRongbin`），`Get-WindowsOptionalFeature` 直接报 requires elevation；`SecondLevelAddressTranslationExtensions`＝False ⇒ 宿主没给这台 VM 透传嵌套虚拟化，WSL2／容器要的那个轻量 VM 起不来。**但"没容器"不等于"不能交叉编译"（同一天第二次更正：我第一遍只查了 C 盘与 PATH 就写"跑不了"）**——板端 aarch64 的交叉编译环境整套在 **D 盘**且实跑通：`aarch64-none-linux-gnu-gcc.exe --version` RC＝0 出 `10.3.1 20210621 (arm-10.29)`（`D:\yzd\tools\cross\gcc-arm-10.3-2021.07-mingw-w64-i686-aarch64-none-linux-gnu\bin\`），`D:\yzd\MSYS2\usr\bin\bash.exe`／`mingw64\bin\cmake.exe`／`mingw64\bin\ninja.exe` 都在，`D:\yzd\WCIS\crosswin` 根在（`kit` 948 件／`pyroot` 209／`src` 45／`donor` 10／`logs` 31，产物 `build\yolov8n` 6 408 568 B＝2026-10-16 06:33、`build-py` 五件），D 盘可用 1 571.9 GB（C 盘只剩 19.5 GB）⇒ **交叉编译照旧走校机，正本＝[[交叉编译主机路由SOP]] 第一节＋[[校机无容器交叉编译]]**（那条路本来就是"无容器"设计，用的是 MSYS2＋Arm GNU，不是容器也不是 WSL）。要 **iCraft 模型编译**才得换主机：现役 CLI 在本机 Windows（`C:\Icraft\CLI\bin\icraft.exe`，`icraft --version` 直读 `Icraft 版本: 3.39.0`／`CLI 版本: 3.39.0.0-431be90(2608211646)`；`C:\Icraft\CLI v3.39.0` 那份额外副本的 exe FileVersion／ProductVersion 与 build 号完全相同＝同一颗包，MACHINE 级 PATH 只挂前一个），且 **ZG 档 imodel 只能本机 Windows CLI 出**（Linux x86_64 那份 amd64 包的 codegen 只带布衣，证据见 [[NPU模型上板出指标SOP]] 第九节坑 4）。ssh 定义与代理口径的正本仍是 [[校机代理与GitHub登录SOP]] |
 | 开发板 | `192.168.1.113` FMQL30TAI676H 悟净（完整版） | `root` / `<厂商默认口令，见交付件>` | WCIS 项目目标平台、边缘设备，**不可用于编译**（993 MB 内存、CMA 池 256 MB，编译会挤死现役链）；arm 内核、Ubuntu 20.04、分 PS 和 PL 端、有 NPU、可执行 FPGA。可 ssh；网络不可用时可通过 107 电脑走 putty 连 COM 端口（速率 `115200`）访问内核 |
-| 中转机 | `192.168.1.102` debian-h61 | `user` / `<见凭据管理器>` | Debian 13，可 ssh；可中转 `ssh -J user@10.101.54.192:18222 root@192.168.1.113` 连接 113。`http://10.101.54.192:18080/` 是它的 3000 端口，对 `http://takomitkm.github.io/WCIS-FPAI-wiki` 做代理中转 |
+| 中转机 | `192.168.1.102` debian-h61 | `user` / `<见凭据管理器>` | Debian 13，可 ssh；可中转 `ssh -J user@10.101.54.192:18222 root@192.168.1.113` 连接 113。旧内网信息站**已于 2026-11-04 作废（§一）**，站点现行地址是 `https://wcis-team.github.io/WCIS-FPAI-wiki/`（D-1793969383）；那台 `wcis-relay` 没有 systemd unit 也没有开机自启，它吐的 200 只代表自己磁盘里那份旧副本 |
 
 - 路由器 `10.101.54.192`；内网 `192.168.1.0/24`。
 
 ## 五、目录与「信息放哪」
 
-- 三个仓库：主库 `WCIS-FPAI`、文档库 `WCIS-FPAI-wiki`（＝`wiki/`，Obsidian 入口）、代码库 `WCIS-FPAI-repos`（＝`repos/`）。
+- 三个仓库（**远端全在 GitHub 组织 `WCIS-Team` 下**，2026-11-06 重建根历史，旧 `takomitkm/*` 只有跳转）：主库 [WCIS-FPAI](https://github.com/WCIS-Team/WCIS-FPAI)、文档库 [WCIS-FPAI-wiki](https://github.com/WCIS-Team/WCIS-FPAI-wiki)（＝`wiki/`，Obsidian 入口）、代码库 [WCIS-FPAI-repos](https://github.com/WCIS-Team/WCIS-FPAI-repos)（＝`repos/`）。仓库↔目录的逐条对应正本＝`wiki/repo2WCIS.repos/repo项目索引.md` 第一节。
 - 主库根：`repos/`、`wiki/` 两个子模块，加根级这几份文档；`source/`、`workenv/`、`largefiles/` 只在本机一份、永久排除（`largefiles/` 曾写作 `大文件/`，`.gitignore` 里那条同名规则是死规则，2026-10-25 已补真名）。
 - 我方产物的存放规则：FPGA → `wiki/PL/FPGA`；NPU 模型 → `wiki/PL/MOD`；Linux 端 → `wiki/PS`；两边都有的 → `wiki/repo2WCIS.repos`（**目录真名；旧文写作 `repo对应WCIS.wiki.repo` 是错的**，2026-11-01 更正）。
 - 规则只有一条（D-1790467200）：**一个事实只在一处写，其余页面用 `[[链接]]` 指过去，不复制表格。**
@@ -155,10 +161,10 @@
   | ④ | `ARCHITECTURE.md` §1.4 | 三处真值（状态源／看板／风险判据）与数据流 |
 
   另外三条高频查询不必走上面这张表：**按卡号找判据页** → `进度计算与实时看板` §3.1 总账表末列「详情」；**找板端某个文件落在哪** → `板端我方代码与产物台账`（按 `#nnn` 编号，含已删件的墓碑行）；**工具／任务在哪台机跑** → `交叉编译主机路由SOP` §二路由表（Vivado／综合布线只在本机，吃性能的仿真在校机；校机不行、只能容器交叉编译时，本机 podman 有现成镜像 `localhost/fpai-ub2004:arm64-icraft3.39.0`）。
-- **板端 OS 层改动只有一个归口**：`wiki/PS/psrt/rt/os.md` 第七节（发行版／内核／模块／分区／包／时间与日志／启动与服务 ＋ **我方对 OS 的全部改动**，如 swap、`swappiness`、`rc.local`、`/usr/local/bin` 软链、apt 增量、journald 上限）。判据＝**动到 OS 层才算**；纯我方脚本落 `/root/` 下的不进那页、进台账。**这条以前没有落点**（2026-11-01 补）。
+- **板端 OS 层改动只有一个归口**：`wiki/PS/psrt&dev/os.md` 第七节（发行版／内核／模块／分区／包／时间与日志／启动与服务 ＋ **我方对 OS 的全部改动**，如 swap、`swappiness`、`rc.local`、`/usr/local/bin` 软链、apt 增量、journald 上限）。判据＝**动到 OS 层才算**；纯我方脚本落 `/root/` 下的不进那页、进台账。**这条以前没有落点**（2026-11-01 补）。⚠ 路径已于 2026-11-06 目录重构从 `wiki/PS/psrt/rt/os.md` 变为 `wiki/PS/psrt&dev/os.md`（`psrt/优化/` 那篇也升到了 `psrt&dev/` 直下）；全库还有指旧路径的页面在按批次改，**新增引用一律写新路径**。
 - 状态与决策以 `wiki/archive/开发管理/状态源与决策记录.md` 为准，冲突时它赢；进度只看 `wiki/archive/开发管理/进度计算与实时看板.md` §3.1 那张总账表。
 - **组件选型的优先级口径**：P0＝当前必须；P1＝计划内后置；P2＝可选；条件 P0＝由实测决定是否做。**优先级不等于进度**，进度只看看板。选型表 `组件.xlsx` **已删、不再维护**（2026-11-04 她裁；2026-10-18 布局重组 `452a586` 删除，旧版可 `git show '452a586^:组件.xlsx'` 取回）。
-- 缺件与一次性大文件：见 `llms.txt` 的「大文件与外部依赖」（`largefiles/JFM_Kits/ip_patch.zip`＋`ip_patch_filelist.txt`；那 384 颗 `.bit` 在 zip 内的 `ip_patch/tools/bitfile/`，盘上没有解出来的目录，要用得先解包）。
+- 缺件与一次性大文件：见 `llms.txt` 的「大文件与外部依赖」（`largefiles/JFM_Kits/ip_patch.zip`＋`ip_patch_filelist.txt`；那 384 颗 `.bit` 在 zip 内的 `ip_patch/tools/bitfile/`，盘上没有解出来的目录，要用得先解包——已解包的那份 `largefiles/4compile/JFM_Kits/ip_patch/` 里 `tools/` 下确实没有 `bitfile/`，2026-11-07 复核仍成立）。⚠ 位流编译工作区已从 `wiki/PL/FPGA/4compile/` 移到 **`largefiles/4compile/`**（2026-11-06 重构），`wiki/.gitignore` 里 `/PL/FPGA/4compile/` 那条现在是死规则。
 - 详细目录树见 `ARCHITECTURE.md`。
 
 ## 六、决策与状态回写

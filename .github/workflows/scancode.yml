@@ -1,0 +1,151 @@
+name: ScanCode recursive report
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    env:
+      SCANCODE_VERSION: '32.5.0'
+      REPORT_DIR: ${{ runner.temp }}/wcis-scancode-report
+      PYTHONUTF8: '1'
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Prepare report directory
+        run: |
+          mkdir -p "$REPORT_DIR"
+          {
+            printf 'repository=%s\nref=%s\ncommit=%s\nrun=%s/%s/actions/runs/%s\n' \
+              "$GITHUB_REPOSITORY" "$GITHUB_REF" "$GITHUB_SHA" \
+              "$GITHUB_SERVER_URL" "$GITHUB_REPOSITORY" "$GITHUB_RUN_ID"
+            printf 'scancode_version=%s\n' "$SCANCODE_VERSION"
+            printf 'scope=recursive checkout, including LFS objects; Git metadata excluded\n'
+          } > "$REPORT_DIR/context.txt"
+
+      - name: Checkout pinned source and all nested submodules
+        id: checkout
+        uses: actions/checkout@v4
+        with:
+          path: source
+          submodules: recursive
+          lfs: true
+          persist-credentials: false
+        timeout-minutes: 30
+
+      - name: Verify submodules and record revisions
+        id: revisions
+        working-directory: source
+        run: |
+          git rev-parse HEAD > "$REPORT_DIR/root-commit.txt"
+          git submodule status --recursive > "$REPORT_DIR/submodules.txt"
+          cat "$REPORT_DIR/submodules.txt"
+          if grep -Eq '^[-+U]' "$REPORT_DIR/submodules.txt"; then
+            echo '::error::A submodule is missing, conflicted, or differs from its recorded commit.'
+            exit 1
+          fi
+
+      - name: Set up Python
+        id: python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned ScanCode Toolkit
+        id: install
+        timeout-minutes: 20
+        run: |
+          python -m pip install --disable-pip-version-check "scancode-toolkit==$SCANCODE_VERSION" 2>&1 | tee "$REPORT_DIR/install.log"
+          scancode --version > "$REPORT_DIR/scancode-version.txt"
+          python -m pip freeze > "$REPORT_DIR/python-packages.txt"
+
+      - name: Scan complete source tree
+        id: scan
+        timeout-minutes: 110
+        run: |
+          set +e
+          scancode \
+            --license --copyright --package --info --license-text \
+            --processes 2 --timeout 120 \
+            --ignore '.git' --ignore '*/.git' --ignore '*/.git/*' \
+            --json-pp "$REPORT_DIR/scancode.json" \
+            --html "$REPORT_DIR/scancode.html" \
+            "$GITHUB_WORKSPACE/source" 2>&1 | tee "$REPORT_DIR/scancode.log"
+          scan_status=${PIPESTATUS[0]}
+          printf '%s\n' "$scan_status" > "$REPORT_DIR/scan-exit-code.txt"
+          exit "$scan_status"
+
+      - name: Summarize report
+        if: always()
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          REVISIONS_OUTCOME: ${{ steps.revisions.outcome }}
+          PYTHON_OUTCOME: ${{ steps.python.outcome }}
+          INSTALL_OUTCOME: ${{ steps.install.outcome }}
+          SCAN_OUTCOME: ${{ steps.scan.outcome }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          reports = Path(os.environ['REPORT_DIR'])
+          lines = [
+              '## ScanCode recursive report',
+              '',
+              *[f"- {name.lower()}: **{os.environ[name + '_OUTCOME']}**"
+                for name in ('CHECKOUT', 'REVISIONS', 'PYTHON', 'INSTALL', 'SCAN')],
+              '',
+              f"Run logs: {os.environ['GITHUB_SERVER_URL']}/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+              '',
+              'Scope: the selected root commit and its recursively pinned submodules, including LFS objects.',
+              'Git metadata is excluded. Local-only files and downloaded/build-time dependencies are outside this scan.',
+              '',
+          ]
+          result = reports / 'scancode.json'
+          if result.exists():
+              try:
+                  data = json.loads(result.read_text(encoding='utf-8'))
+              except (ValueError, OSError) as error:
+                  lines.append(f'Report could not be read: {error}')
+              else:
+                  files = [item for item in data.get('files', []) if item.get('type') == 'file']
+                  errors = sum(bool(item.get('scan_errors')) for item in data.get('files', []))
+                  header_errors = sum(len(header.get('errors') or []) for header in data.get('headers', []))
+                  lines.extend([
+                      f'- Files in report: {len(files)}',
+                      f"- Files with license detections: {sum(bool(item.get('license_detections')) for item in files)}",
+                      f"- Packages: {len(data.get('packages', []))}",
+                      f'- Resources with scan errors: {errors}',
+                      f'- Header errors: {header_errors}',
+                  ])
+                  if errors or header_errors:
+                      lines.append('**Scan errors exist; review the JSON and log before using this as a complete inventory.**')
+          else:
+              lines.append('**No JSON report was produced. Check checkout, installation, and scan logs.**')
+          lines.extend([
+              '',
+              'Download the `wcis-scancode-*` artifact for HTML, JSON, logs, and revision records.',
+              'License findings are inventory results; this workflow does not apply a license allow/deny policy.',
+          ])
+          summary = '\n'.join(lines) + '\n'
+          reports.mkdir(parents=True, exist_ok=True)
+          (reports / 'summary.md').write_text(summary, encoding='utf-8')
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a', encoding='utf-8') as stream:
+              stream.write(summary)
+          PY
+
+      - name: Upload unified reports and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wcis-scancode-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.REPORT_DIR }}/
+          if-no-files-found: error
+          retention-days: 30
