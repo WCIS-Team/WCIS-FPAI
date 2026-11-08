@@ -114,7 +114,7 @@ wiki/
 
 ## 作品提交
 
-整个 WCIS 项目收工后，提交给比赛举办方的模板，落点主库根 `作品提交/`：报告 `WCIS作品报告_润色版.docx.pdf`、docx 模板、`official/要打印签名.pdf`、`privacy/承诺书.pdf`、现场照、`llm_usage.md`，以及视频交付工程指针页 [`fmql30tai-sdi-npu-face-recognition.md`](./fmql30tai-sdi-npu-face-recognition.md)。
+整个 WCIS 项目收工后，提交给比赛举办方的模板，落点主库根 `作品提交/`：报告 `WCIS作品报告_润色版.docx.pdf`、docx 模板、`official/要打印签名.pdf`、`privacy/承诺书.pdf`、现场照、`llm_usage.md`，以及视频交付工程指针页 [`fmql30tai-sdi-npu-face-recognition.md`](./作品提交/fmql30tai-sdi-npu-face-recognition.md)。**该视频链路原作者为 `anxianji11-pixel`（`takomitkm` 代上传），署名正本在视频仓 `NOTICE.md`；三组织库重建根历史后贡献视图的补记口径见 D-1794150604**（见 [指针页「来源与署名」](./作品提交/fmql30tai-sdi-npu-face-recognition.md#来源与署名)）。
 
 ## Optional
 
