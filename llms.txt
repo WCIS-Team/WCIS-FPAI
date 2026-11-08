@@ -101,7 +101,7 @@ wiki/
 - 文档库门面与总纲：`wiki/README.md` · `wiki/PS/psrt&dev/psdev.md` · `wiki/PL/pldev.md` · `wiki/PL/plvid.md` · `wiki/PL/plnet.md`
 - 档案与台账索引：`wiki/PS/psrt&dev/hardware/硬件与基础运行环境档案.md` · `wiki/PS/psrt&dev/board_extract/板端提取件台账.md` · `wiki/PS/psrt&dev/board_extract/README.md` · `wiki/PS/板端我方代码与产物台账.md` · `wiki/todo/工具链与素材进README.md`
 - repo2WCIS.repos：`wiki/repo2WCIS.repos/repo项目索引.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/FPAI30TAI图像FPGA索引.md` · `wiki/repo2WCIS.repos/FPAI30TAI图像FPGA/组件设计/组件总览与阅读地图.md`
-- 其他：`wiki/PS/oldmainchain/WebFrontend/webapp.md`（目录占位 stub）· `wiki/PS/oldmainchain/WebFrontend/lang语音链试验台与通信.md` · `wiki/mainchain/重构剩余工作详细清单.md`（指向 HA4FPAI docs 实施正本） · `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`（ha-cut 系列总览，`tags: [index]`） · `wiki/PS/ha/HA4FPAI-设计总览.md`（HA4FPAI 整机设计总览，`tags: [index]`）
+- 其他：`wiki/PS/oldmainchain/WebFrontend/webapp.md`（目录占位 stub）· `wiki/PS/oldmainchain/WebFrontend/lang语音链试验台与通信.md` · `wiki/mainchain/重构剩余工作详细清单.md`（指向 HA4FPAI docs 实施正本） · `wiki/PS/ha/ha-cut/09-裁剪后设计总览.md`（ha-cut 系列总览，`tags: [index]`） · `wiki/PS/ha/HA4FPAI-设计总览.md`（HA4FPAI 整机设计总览，`tags: [index]`） · `wiki/PS/ha/ha-cut/10-删除清单汇总.md`（ha-cut 删除清单，`tags: [index]`）
 
 > `wiki/official/` 里那批厂商清单页（模型清单、ModelScope ModelZoo、mdz 总仓、benchmark 仓、Procise 手册索引）现在靠 **`wiki/official/INDEX.md`**（只列名字的入库索引）定位，不再走 `#index` 标签——这是 11-06 重构的既定口径，不是漏标。
 
